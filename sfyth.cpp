@@ -113,6 +113,18 @@ LRESULT Char2Json(QString &buff, QJsonObject &json)
 							SubJson.insert("PH", Value.toFloat());
 							continue;
 						}
+						//液位
+						if (Key.contains("watdeep"))
+						{
+							SubJson.insert("waterlevel", Value.toFloat());
+							continue;
+						}
+						//压力
+						if (Key.contains("press"))
+						{
+							SubJson.insert("waterpres", Value.toFloat());
+							continue;
+						}
 					}
 					json.insert(QString::number(Count), SubJson);
 					QDateTime current_date_time1 = QDateTime::currentDateTime();
@@ -273,5 +285,6 @@ void SetCommand(uint Socket, int CommandType, QString Params1, QString Params2, 
 	QByteArray ba = Comm.toLatin1();
 	LPCSTR ch = ba.data();
 	int len = Comm.length();
-	::send(Socket, ch, len, 0);
+	int nn=::send(Socket, ch, len, 0);
+	qDebug() << send << nn;
 }
